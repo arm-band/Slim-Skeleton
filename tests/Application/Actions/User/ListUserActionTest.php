@@ -8,19 +8,21 @@ use App\Domain\User\UserRepository;
 use App\Domain\User\User;
 use DI\Container;
 use Tests\TestCase;
+use Prophecy\Prophet;
 
 class ListUserActionTest extends TestCase
 {
     public function testAction()
     {
         $app = $this->getAppInstance();
+        $prophet = new Prophet;
 
         /** @var Container $container */
         $container = $app->getContainer();
 
         $user = new User(1, 'bill.gates', 'Bill', 'Gates');
 
-        $userRepositoryProphecy = $this->prophesize(UserRepository::class);
+        $userRepositoryProphecy = $prophet->prophesize(UserRepository::class);
         $userRepositoryProphecy
             ->findAll()
             ->willReturn([$user])

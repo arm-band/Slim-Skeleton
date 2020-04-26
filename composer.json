@@ -25,12 +25,16 @@
         "ext-json": "*",
         "monolog/monolog": "^2.0",
         "php": "^7.2",
-        "php-di/php-di": "^6.0",
+        "php-di/php-di": "^6.1",
         "slim/psr7": "^1.0",
-        "slim/slim": "^4.5"
+        "slim/slim": "^4.5",
+        "vlucas/phpdotenv": "v4.1.4"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^9.1.3",
+        "squizlabs/php_codesniffer": "^3.5.5",
+        "phpmd/phpmd": "^2.8.2",
+        "zeuxisoo/slim-whoops": "^0.7.2"
     },
     "config": {
         "process-timeout": 0,
@@ -48,6 +52,9 @@
     },
     "scripts": {
         "start": "php -S localhost:8080 -t public",
-        "test": "phpunit"
+        "test": "phpunit",
+        "phpmd": "phpmd src/ text cleancode,codesize,design,unusedcode",
+        "post-install-cmd": "php bin/postinstall.php",
+        "post-update-cmd": "php bin/postinstall.php"
     }
 }

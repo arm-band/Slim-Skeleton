@@ -10,6 +10,12 @@ use Slim\Factory\ServerRequestCreatorFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+$dot_env = __DIR__. '/../.env';
+if (is_readable($dot_env)) {
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+    $dotenv->load();
+}
+
 // Instantiate PHP-DI ContainerBuilder
 $containerBuilder = new ContainerBuilder();
 
@@ -36,6 +42,8 @@ $container = $containerBuilder->build();
 AppFactory::setContainer($container);
 $app = AppFactory::create();
 $callableResolver = $app->getCallableResolver();
+
+$app->setBasePath(getEnv('ROOT_PATH'));
 
 // Register middleware
 $middleware = require __DIR__ . '/../app/middleware.php';

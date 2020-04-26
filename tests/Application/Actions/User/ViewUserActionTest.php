@@ -12,19 +12,21 @@ use App\Domain\User\UserRepository;
 use DI\Container;
 use Slim\Middleware\ErrorMiddleware;
 use Tests\TestCase;
+use Prophecy\Prophet;
 
 class ViewUserActionTest extends TestCase
 {
     public function testAction()
     {
         $app = $this->getAppInstance();
+        $prophet = new Prophet;
 
         /** @var Container $container */
         $container = $app->getContainer();
 
         $user = new User(1, 'bill.gates', 'Bill', 'Gates');
 
-        $userRepositoryProphecy = $this->prophesize(UserRepository::class);
+        $userRepositoryProphecy = $prophet->prophesize(UserRepository::class);
         $userRepositoryProphecy
             ->findUserOfId(1)
             ->willReturn($user)
@@ -45,6 +47,7 @@ class ViewUserActionTest extends TestCase
     public function testActionThrowsUserNotFoundException()
     {
         $app = $this->getAppInstance();
+        $prophet = new Prophet;
 
         $callableResolver = $app->getCallableResolver();
         $responseFactory = $app->getResponseFactory();
@@ -58,7 +61,7 @@ class ViewUserActionTest extends TestCase
         /** @var Container $container */
         $container = $app->getContainer();
 
-        $userRepositoryProphecy = $this->prophesize(UserRepository::class);
+        $userRepositoryProphecy = $prophet->prophesize(UserRepository::class);
         $userRepositoryProphecy
             ->findUserOfId(1)
             ->willThrow(new UserNotFoundException())
